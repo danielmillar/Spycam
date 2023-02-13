@@ -70,10 +70,15 @@ lolWorker.on("message", async (message) => {
         .setFooter({ text: `League of Legends - ${gameDurationFormatted}` });
 
       console.log(`[INFO] Sending embed to ${guildID} - ${guildChannelID}`);
-      client.guilds.cache
+      
+      try{
+        client.guilds.cache
         .get(`${guildID}`)
         .channels.cache.get(`${guildChannelID}`)
         .send({ embeds: [embed] });
+      }catch(err){
+        console.log(err);
+      }
     } else {
       const embed = new EmbedBuilder()
         .setTitle(`${summonerName} lost their match!`)
@@ -87,10 +92,15 @@ lolWorker.on("message", async (message) => {
         .setFooter({ text: `League of Legends - ${gameDurationFormatted}` });
 
       console.log(`[INFO] Sending embed to ${guildID} - ${guildChannelID}`);
-      client.guilds.cache
+
+      try{
+        client.guilds.cache
         .get(`${guildID}`)
         .channels.cache.get(`${guildChannelID}`)
         .send({ embeds: [embed] });
+      }catch(err){
+        console.log(err);
+      }
     }
   }
 });
@@ -124,10 +134,15 @@ tftWorker.on("message", async (message) => {
       .setFooter({ text: `Teamfight Tactics - ${gameDurationFormatted}` });
 
     console.log(`[INFO] Sending embed to ${guildID} - ${guildChannelID}`);
-    client.guilds.cache
+
+    try{
+      client.guilds.cache
       .get(`${guildID}`)
       .channels.cache.get(`${guildChannelID}`)
       .send({ embeds: [embed] });
+    }catch(err){
+      console.log(err);
+    }
   }
 });
 //!SECTION

@@ -1,14 +1,13 @@
-const fs = require('fs');
-const path = require('path');
 const { resolve } = require('path');
 const axios = require('axios');
 const User =  require('../models/User');
-const { workerData, parentPort, isMainThread } = require("worker_threads");
+const { parentPort } = require("worker_threads");
 
 const { config } = require('dotenv');
 config({ path: resolve(__dirname, '..', '.env') })
 
 const waitTime = 60000;
+const userTimeout = 600;
 
 //SECTION - Connect to MongoDB
 const mongoose = require('mongoose');
@@ -44,6 +43,11 @@ async function checkLatestMatch(){
 
         if(timeout > currentEpoch){
             console.log(`[INFO] ${summonerName} is on timeout - Skipping - tftWorker`);
+            return;
+        }
+
+        if(channels.length == 0){
+            console.log(`[INFO] ${summonerName} has no channels - Skipping - tftWorker`);
             return;
         }
 
@@ -202,7 +206,7 @@ async function checkLatestMatch(){
                 //!SECTION
             }
 
-            const newTimeout = currentEpoch + 600;
+            const newTimeout = currentEpoch + userTimeout;
             await User.findOneAndUpdate({ puuid: puuid }, { lastMatchIDTFT: matchIDs[0], timeout: newTimeout });
         }
         //!SECTION
