@@ -179,7 +179,7 @@ async function checkLatestMatch(){
 
                     // [game, guildID, guildChannelID, summonerName, queueFormatted, map, gameDurationFormatted, kills, deaths, assists, cs, champIcon, win]
                     channels.forEach(async channel => {
-                        parentPort.postMessage({ game: 'lol', guildID: channel.guildID, guildChannelID: channel.channelID, summonerName: summonerName, queueFormatted: queueFormatted, map: map, gameDurationFormatted: gameDurationFormatted, kills: kills, deaths: deaths, assists: assists, cs: cs, champIcon: champIcon, win: win });
+                        parentPort.postMessage({guildID: channel.guildID, guildChannelID: channel.channelID, summonerName: summonerName, queueFormatted: queueFormatted, map: map, gameDurationFormatted: gameDurationFormatted, kills: kills, deaths: deaths, assists: assists, cs: cs, champIcon: champIcon, win: win });
                         await new Promise(resolve => setTimeout(resolve, 5000));
                     });
                     await new Promise(resolve => setTimeout(resolve, 5000));

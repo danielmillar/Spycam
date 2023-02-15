@@ -198,7 +198,7 @@ async function checkLatestMatch(){
                     }
 
                     channels.forEach(async channel => {
-                        parentPort.postMessage({ game: 'tft', guildID: channel.guildID, guildChannelID: channel.channelID, summonerName: summonerName, queueFormatted: queueFormatted, gameDurationFormatted: gameDurationFormatted, level: level, roundsSurvived: roundsSurvived, placementFormatted: placementFormatted, placementColor: placementColor });
+                        parentPort.postMessage({guildID: channel.guildID, guildChannelID: channel.channelID, summonerName: summonerName, queueFormatted: queueFormatted, gameDurationFormatted: gameDurationFormatted, level: level, roundsSurvived: roundsSurvived, placementFormatted: placementFormatted, placementColor: placementColor });
                         await new Promise(resolve => setTimeout(resolve, 5000));
                     });
                     await new Promise(resolve => setTimeout(resolve, 5000));

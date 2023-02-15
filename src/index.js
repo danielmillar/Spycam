@@ -10,14 +10,14 @@ const {
   Client,
   Collection,
   GatewayIntentBits,
-  EmbedBuilder
+  EmbedBuilder,
 } = require("discord.js");
 
 const client = new Client({
   intents: [
-    GatewayIntentBits.Guilds, 
-    GatewayIntentBits.GuildMessages, 
-    GatewayIntentBits.GuildMembers
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.GuildMembers,
   ],
 });
 
@@ -41,108 +41,101 @@ const lolWorker = new Worker(path.join(__dirname, "workers", "lolWorker.js"));
 const tftWorker = new Worker(path.join(__dirname, "workers", "tftWorker.js"));
 
 lolWorker.on("message", async (message) => {
-  const game = message.game;
   const guildID = message.guildID;
   const guildChannelID = message.guildChannelID;
 
-  if (game === "lol") {
-    const summonerName = message.summonerName;
-    const queueFormatted = message.queueFormatted;
-    const map = message.map;
-    const gameDurationFormatted = message.gameDurationFormatted;
-    const kills = message.kills;
-    const deaths = message.deaths;
-    const assists = message.assists;
-    const cs = message.cs;
-    const champIcon = message.champIcon;
-    const win = message.win;
+  const summonerName = message.summonerName;
+  const queueFormatted = message.queueFormatted;
+  const map = message.map;
+  const gameDurationFormatted = message.gameDurationFormatted;
+  const kills = message.kills;
+  const deaths = message.deaths;
+  const assists = message.assists;
+  const cs = message.cs;
+  const champIcon = message.champIcon;
+  const win = message.win;
 
-    if (win) {
-      const embed = new EmbedBuilder()
-        .setTitle(`${summonerName} won their match!`)
-        .setThumbnail(champIcon)
-        .setColor(0x32dc65)
-        .addFields({
-          name: `${queueFormatted} - ${map}`,
-          value: `${cs} CS - ${kills}/${deaths}/${assists} KDA`,
-          inline: true,
-        })
-        .setFooter({ text: `League of Legends - ${gameDurationFormatted}` });
+  if (win) {
+    const embed = new EmbedBuilder()
+      .setTitle(`${summonerName} won their match!`)
+      .setThumbnail(champIcon)
+      .setColor(0x32dc65)
+      .addFields({
+        name: `${queueFormatted} - ${map}`,
+        value: `${cs} CS - ${kills}/${deaths}/${assists} KDA`,
+        inline: true,
+      })
+      .setFooter({ text: `League of Legends - ${gameDurationFormatted}` });
 
-      console.log(`[INFO] Sending embed to ${guildID} - ${guildChannelID}`);
-      
-      try{
-        client.guilds.cache
+    console.log(`[INFO] Sending embed to ${guildID} - ${guildChannelID}`);
+
+    try {
+      client.guilds.cache
         .get(`${guildID}`)
         .channels.cache.get(`${guildChannelID}`)
         .send({ embeds: [embed] });
-      }catch(err){
-        console.log(err);
-      }
-    } else {
-      const embed = new EmbedBuilder()
-        .setTitle(`${summonerName} lost their match!`)
-        .setThumbnail(champIcon)
-        .setColor(0xfa4453)
-        .addFields({
-          name: `${queueFormatted} - ${map}`,
-          value: `${cs} CS - ${kills}/${deaths}/${assists} KDA`,
-          inline: true,
-        })
-        .setFooter({ text: `League of Legends - ${gameDurationFormatted}` });
+    } catch (err) {
+      console.log(err);
+    }
+  } else {
+    const embed = new EmbedBuilder()
+      .setTitle(`${summonerName} lost their match!`)
+      .setThumbnail(champIcon)
+      .setColor(0xfa4453)
+      .addFields({
+        name: `${queueFormatted} - ${map}`,
+        value: `${cs} CS - ${kills}/${deaths}/${assists} KDA`,
+        inline: true,
+      })
+      .setFooter({ text: `League of Legends - ${gameDurationFormatted}` });
 
-      console.log(`[INFO] Sending embed to ${guildID} - ${guildChannelID}`);
+    console.log(`[INFO] Sending embed to ${guildID} - ${guildChannelID}`);
 
-      try{
-        client.guilds.cache
+    try {
+      client.guilds.cache
         .get(`${guildID}`)
         .channels.cache.get(`${guildChannelID}`)
         .send({ embeds: [embed] });
-      }catch(err){
-        console.log(err);
-      }
+    } catch (err) {
+      console.log(err);
     }
   }
 });
 
 tftWorker.on("message", async (message) => {
-  const game = message.game;
   const guildID = message.guildID;
   const guildChannelID = message.guildChannelID;
 
-  if (game === "tft") {
-    // { game: 'tft', guildID: channel.guildID, guildChannelID: channel.channelID, summonerName: summonerName, queueFormatted: queueFormatted, map: map, gameDurationFormatted: gameDurationFormatted, level: level, roundsSurvived: roundsSurvived, placementFormatted: placementFormatted, placementColor: placementColor }
-    const summonerName = message.summonerName;
-    const queueFormatted = message.queueFormatted;
-    const gameDurationFormatted = message.gameDurationFormatted;
-    const level = message.level;
-    const roundsSurvived = message.roundsSurvived;
-    const placementFormatted = message.placementFormatted;
-    const placementColor = message.placementColor;
+  const summonerName = message.summonerName;
+  const queueFormatted = message.queueFormatted;
+  const gameDurationFormatted = message.gameDurationFormatted;
+  const level = message.level;
+  const roundsSurvived = message.roundsSurvived;
+  const placementFormatted = message.placementFormatted;
+  const placementColor = message.placementColor;
 
-    const embed = new EmbedBuilder()
-      .setTitle(`${summonerName} placed ${placementFormatted} in their match!`)
-      .setThumbnail(
-        `https://teamfighttactics.leagueoflegends.com/static/24eaaf3a8fb2a932281f8990cd93f475/c74cc/pengu.png`
-      )
-      .setColor(placementColor)
-      .addFields({
-        name: `${queueFormatted}`,
-        value: `Level ${level} - Survived ${roundsSurvived} rounds`,
-        inline: true,
-      })
-      .setFooter({ text: `Teamfight Tactics - ${gameDurationFormatted}` });
+  const embed = new EmbedBuilder()
+    .setTitle(`${summonerName} placed ${placementFormatted} in their match!`)
+    .setThumbnail(
+      `https://teamfighttactics.leagueoflegends.com/static/24eaaf3a8fb2a932281f8990cd93f475/c74cc/pengu.png`
+    )
+    .setColor(placementColor)
+    .addFields({
+      name: `${queueFormatted}`,
+      value: `Level ${level} - Survived ${roundsSurvived} rounds`,
+      inline: true,
+    })
+    .setFooter({ text: `Teamfight Tactics - ${gameDurationFormatted}` });
 
-    console.log(`[INFO] Sending embed to ${guildID} - ${guildChannelID}`);
+  console.log(`[INFO] Sending embed to ${guildID} - ${guildChannelID}`);
 
-    try{
-      client.guilds.cache
+  try {
+    client.guilds.cache
       .get(`${guildID}`)
       .channels.cache.get(`${guildChannelID}`)
       .send({ embeds: [embed] });
-    }catch(err){
-      console.log(err);
-    }
+  } catch (err) {
+    console.log(err);
   }
 });
 //!SECTION
