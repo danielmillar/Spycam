@@ -156,8 +156,14 @@ async function checkLatestMatch(){
 
                     const participant = matchData.info.participants.find(participant => participant.puuid === puuid);
 
-                    const queue = queueData.find(queue => queue.queueId === matchData.info.queue_id).description;
-                    const queueFormatted = queue.replace(' games', '');
+                    let queueFormatted = "";
+
+                    if(matchData.info.queue_id === 1160){
+                        queueFormatted = 'Ranked Double Up';
+                    }else{
+                        const queue = queueData.find(queue => queue.queueId === matchData.info.queue_id).description;
+                        queueFormatted = queue.replace(' games', '');
+                    }
 
                     const gameDuration = matchData.info.game_length;
                     const gameDurationMinutes = Math.floor(gameDuration / 60);
