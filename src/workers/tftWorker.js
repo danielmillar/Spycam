@@ -175,12 +175,13 @@ async function checkLatestMatch(){
                     const level = participant.level;
                     const roundsSurvived = participant.last_round;
 
-                    const placement = participant.placement;
+                    const placement = participant.placement / 2;
+                    const placementRounded = Math.ceil(placement);
 
                     let placementFormatted = "";
                     let placementColor = 0x32DC65;
 
-                    switch(placement) {
+                    switch(placementRounded) {
                         case 1:
                             placementFormatted = '1st';
                             placementColor = 0x32DC65;
