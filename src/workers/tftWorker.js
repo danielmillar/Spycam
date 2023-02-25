@@ -176,32 +176,56 @@ async function checkLatestMatch(){
                     const roundsSurvived = participant.last_round;
 
                     const placement = participant.placement / 2;
-                    const placementRounded = Math.ceil(placement);
-
                     let placementFormatted = "";
                     let placementColor = 0x32DC65;
-
-                    switch(placementRounded) {
-                        case 1:
-                            placementFormatted = '1st';
-                            placementColor = 0x32DC65;
-                            break;
-                        case 2:
-                            placementFormatted = '2nd';
-                            placementColor = 0xFFA500;
-                            break;
-                        case 3:
-                            placementFormatted = '3rd';
-                            placementColor = 0xFFA500;
-                            break;
-                        case 4:
-                            placementFormatted = '4th';
-                            placementColor = 0xFFA500;
-                            break;
-                        default:
-                            placementFormatted = `${placement}th`;
-                            placementColor = 0xFA4453;
-                            break;
+                    
+                    if(matchData.info.queue_id === 1160){
+                        let placementRounded = Math.round(placement);
+                        switch(placementRounded) {
+                            case 1:
+                                placementFormatted = '1st';
+                                placementColor = 0x32DC65;
+                                break;
+                            case 2:
+                                placementFormatted = '2nd';
+                                placementColor = 0xFFA500;
+                                break;
+                            case 3:
+                                placementFormatted = '3rd';
+                                placementColor = 0xFFA500;
+                                break;
+                            case 4:
+                                placementFormatted = '4th';
+                                placementColor = 0xFFA500;
+                                break;
+                            default:
+                                placementFormatted = `${placement}th`;
+                                placementColor = 0xFA4453;
+                                break;
+                        }
+                    }else{
+                        switch(placement) {
+                            case 1:
+                                placementFormatted = '1st';
+                                placementColor = 0x32DC65;
+                                break;
+                            case 2:
+                                placementFormatted = '2nd';
+                                placementColor = 0xFFA500;
+                                break;
+                            case 3:
+                                placementFormatted = '3rd';
+                                placementColor = 0xFFA500;
+                                break;
+                            case 4:
+                                placementFormatted = '4th';
+                                placementColor = 0xFFA500;
+                                break;
+                            default:
+                                placementFormatted = `${placement}th`;
+                                placementColor = 0xFA4453;
+                                break;
+                        }
                     }
 
                     channels.forEach(async channel => {
