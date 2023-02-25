@@ -175,11 +175,12 @@ async function checkLatestMatch(){
                     const level = participant.level;
                     const roundsSurvived = participant.last_round;
 
-                    const placement = participant.placement / 2;
+                    let placement = participant.placement;
                     let placementFormatted = "";
                     let placementColor = 0x32DC65;
                     
                     if(matchData.info.queue_id === 1160){
+                        placement = participant.placement / 2;
                         let placementRounded = Math.round(placement);
                         switch(placementRounded) {
                             case 1:
