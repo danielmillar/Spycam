@@ -199,7 +199,7 @@ async function checkLatestMatch(){
                                 placementColor = 0xFFA500;
                                 break;
                             default:
-                                placementFormatted = `${placement}th`;
+                                placementFormatted = `${placementRounded}th`;
                                 placementColor = 0xFA4453;
                                 break;
                         }
