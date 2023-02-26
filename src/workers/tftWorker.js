@@ -239,7 +239,7 @@ async function checkLatestMatch(){
             }
 
             const newTimeout = currentEpoch + userTimeout;
-            await User.findOneAndUpdate({ puuid: puuid }, { lastMatchIDTFT: matchIDs[0], timeout: newTimeout });
+            await User.findOneAndUpdate({ puuidTFT: puuid }, { lastMatchIDTFT: matchIDs[0], timeout: newTimeout });
         }
         //!SECTION
     });

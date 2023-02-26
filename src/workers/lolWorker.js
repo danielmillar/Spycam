@@ -188,7 +188,7 @@ async function checkLatestMatch(){
             }
 
             const newTimeout = currentEpoch + userTimeout;
-            await User.findOneAndUpdate({ puuid: puuid }, { lastMatchIDLOL: matchIDs[0], timeout: newTimeout });
+            await User.findOneAndUpdate({ puuidLOL: puuid }, { lastMatchIDLOL: matchIDs[0], timeout: newTimeout });
         }
         //!SECTION
     });
