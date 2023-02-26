@@ -175,7 +175,7 @@ module.exports = {
 			};
 	
 			const newUser = {
-				summonerName: summonerData.name,
+				summonerName: tftSummonerData.name,
 				region: region,
 				puuidTFT: tftSummonerData.puuid,
 				puuidLOL: lolSummonerData.puuid,
