@@ -34,7 +34,7 @@ async function checkLatestMatch(){
     users.forEach(async (user) => {
         const summonerName = user.summonerName;
         const region = user.region;
-        const puuid = user.puuid;
+        const puuid = user.puuidLOL;
         const lastMatchID = user.lastMatchIDLOL;
         const timeout = user.timeout;
         const channels = user.channels;

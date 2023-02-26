@@ -29,10 +29,29 @@ module.exports = {
 
 		await interaction.reply({ content: `Check if the summoner ${summoner} exists...`, ephemeral: true });
 
+		let tftSummonerData;
+		let lolSummonerData;
+
 		//SECTION - Get summoner data from Riot API
-		const summonerData = await axios.get(`https://${region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summoner}`, {
+		tftSummonerData = await axios.get(`https://${region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summoner}`, {
 			headers: {
-				'X-Riot-Token': process.env.DEV_API_KEY
+				'X-Riot-Token': process.env.TFT_API_KEY || process.env.DEV_API_KEY
+			}
+		}).then(response => {
+			return response.data;
+		}).catch(error => {
+			console.log('[ERROR] Failed to get summoner data from Riot API', error);
+
+			if (error.response.status === 404) {
+				return interaction.editReply({ content: `The summoner ${summoner} does not exist. Please double check summoner name and region!`, ephemeral: true });
+			} else {
+				return interaction.editReply({ content: `Failed to get summoner data from Riot API.`, ephemeral: true });
+			}
+		});
+
+		tftSummonerData = await axios.get(`https://${region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summoner}`, {
+			headers: {
+				'X-Riot-Token': process.env.LOL_API_KEY || process.env.DEV_API_KEY
 			}
 		}).then(response => {
 			return response.data;
@@ -117,7 +136,7 @@ module.exports = {
 
 		const matchData = await Promise.all(endpoints.map(endpoint => axios.get(endpoint, {
 			headers: {
-				'X-Riot-Token': process.env.DEV_API_KEY
+				'X-Riot-Token': process.env.TFT_API_KEY || process.env.DEV_API_KEY
 			}
 		}).then(response => {
 			return response.data;
@@ -155,7 +174,8 @@ module.exports = {
 			const newUser = {
 				summonerName: summonerData.name,
 				region: region,
-				puuid: summonerData.puuid,
+				puuidTFT: tftSummonerData.puuid,
+				puuidLOL: lolSummonerData.puuid,
 				lastMatchIDLOL: lastMatchIDLOL,
 				lastMatchIDTFT: lastMatchIDTFT,
 				timeout: 0,

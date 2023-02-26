@@ -9,7 +9,8 @@ const ChannelSchema = new Schema({
 const UserSchema = new Schema({
     summonerName: String,
     region: String,
-    puuid: String,
+    puuidTFT: String,
+    puuidLOL: String,
     lastMatchIDLOL: String,
     lastMatchIDTFT: String,
     timeout: Number,
