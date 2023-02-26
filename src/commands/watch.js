@@ -49,7 +49,7 @@ module.exports = {
 			}
 		});
 
-		tftSummonerData = await axios.get(`https://${region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summoner}`, {
+		lolSummonerData = await axios.get(`https://${region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summoner}`, {
 			headers: {
 				'X-Riot-Token': process.env.LOL_API_KEY || process.env.DEV_API_KEY
 			}
@@ -147,7 +147,6 @@ module.exports = {
 		}).catch(error => {
 			console.log('[ERROR] Failed to get match data from Riot API', error);
 		});
-
 
 		const lastMatchIDLOL = lolMatchData[0];
 		const lastMatchIDTFT = tftMatchData[0];
