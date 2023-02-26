@@ -33,7 +33,7 @@ module.exports = {
 		let lolSummonerData;
 
 		//SECTION - Get summoner data from Riot API
-		tftSummonerData = await axios.get(`https://${region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summoner}`, {
+		tftSummonerData = await axios.get(`https://${region}.api.riotgames.com/tft/summoner/v1/summoners/by-name/${summoner}`, {
 			headers: {
 				'X-Riot-Token': process.env.TFT_API_KEY || process.env.DEV_API_KEY
 			}
@@ -87,7 +87,7 @@ module.exports = {
 		//SECTION - Verify users last played matches
 		await interaction.editReply({ content: `Verifying last played matches...`, ephemeral: true });
 
-		const playerUUID = summonerData.puuid;
+		const playerUUID = tftSummonerData.puuid;
 		let routing;
 
 		switch(region) {
