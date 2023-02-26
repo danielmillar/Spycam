@@ -87,7 +87,6 @@ module.exports = {
 		//SECTION - Verify users last played matches
 		await interaction.editReply({ content: `Verifying last played matches...`, ephemeral: true });
 
-		const playerUUID = tftSummonerData.puuid;
 		let routing;
 
 		switch(region) {
@@ -129,24 +128,29 @@ module.exports = {
 				break;
 		}
 
-		const endpoints = [
-			`https://${routing}.api.riotgames.com/lol/match/v5/matches/by-puuid/${playerUUID}/ids?start=0&count=5`,
-            `https://${routing}.api.riotgames.com/tft/match/v1/matches/by-puuid/${playerUUID}/ids?start=0&count=5`
-		];
-
-		const matchData = await Promise.all(endpoints.map(endpoint => axios.get(endpoint, {
+		tftMatchData = await axios.get(`https://${routing}.api.riotgames.com/tft/match/v1/matches/by-puuid/${tftSummonerData.puuid}/ids?start=0&count=5`, {
 			headers: {
 				'X-Riot-Token': process.env.TFT_API_KEY || process.env.DEV_API_KEY
 			}
 		}).then(response => {
 			return response.data;
-		}
-		).catch(error => {
+		}).catch(error => {
 			console.log('[ERROR] Failed to get match data from Riot API', error);
-		})));
+		});
 
-		const lastMatchIDLOL = matchData[0][0];
-		const lastMatchIDTFT = matchData[1][0];
+		lolMatchData = await axios.get(`https://${routing}.api.riotgames.com/lol/match/v5/matches/by-puuid/${lolSummonerData.puuid}/ids?start=0&count=5`, {
+			headers: {
+				'X-Riot-Token': process.env.LOL_API_KEY || process.env.DEV_API_KEY
+			}
+		}).then(response => {
+			return response.data;
+		}).catch(error => {
+			console.log('[ERROR] Failed to get match data from Riot API', error);
+		});
+
+
+		const lastMatchIDLOL = lolMatchData[0];
+		const lastMatchIDTFT = tftMatchData[0];
 		//!SECTION
 		
 		await new Promise(resolve => setTimeout(resolve, 1000));
