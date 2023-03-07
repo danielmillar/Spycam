@@ -84,7 +84,7 @@ async function checkLatestMatch() {
         `https://${routing}.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?start=0&count=20`,
         {
           headers: {
-            "X-Riot-Token": process.env.LOL_API_KEY || process.env.DEV_API_KEY,
+            "X-Riot-Token": process.env.LOL_API_KEY,
           },
         }
       )
@@ -129,7 +129,7 @@ async function checkLatestMatch() {
               axios.get(endpoints[0], {
                 headers: {
                   "X-Riot-Token":
-                    process.env.LOL_API_KEY || process.env.DEV_API_KEY,
+                    process.env.LOL_API_KEY,
                 },
               }),
               axios.get(endpoints[1]),

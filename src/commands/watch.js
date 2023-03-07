@@ -2,6 +2,20 @@ const { SlashCommandBuilder } = require('discord.js');
 const axios = require('axios');
 const User = require('../models/User');
 
+const routingMap = {
+    br1: "americas",
+    eun1: "europe",
+    euw1: "europe",
+    jp1: "asia",
+    kr: "asia",
+    la1: "americas",
+    la2: "americas",
+    na1: "americas",
+    oc1: "americas",
+    tr1: "europe",
+    ru: "europe",
+  };
+
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('watch')
@@ -35,7 +49,7 @@ module.exports = {
 		//SECTION - Get summoner data from Riot API
 		tftSummonerData = await axios.get(`https://${region}.api.riotgames.com/tft/summoner/v1/summoners/by-name/${summoner}`, {
 			headers: {
-				'X-Riot-Token': process.env.TFT_API_KEY || process.env.DEV_API_KEY
+				'X-Riot-Token': process.env.TFT_API_KEY
 			}
 		}).then(response => {
 			return response.data;
@@ -51,7 +65,7 @@ module.exports = {
 
 		lolSummonerData = await axios.get(`https://${region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summoner}`, {
 			headers: {
-				'X-Riot-Token': process.env.LOL_API_KEY || process.env.DEV_API_KEY
+				'X-Riot-Token': process.env.LOL_API_KEY
 			}
 		}).then(response => {
 			return response.data;
@@ -87,50 +101,11 @@ module.exports = {
 		//SECTION - Verify users last played matches
 		await interaction.editReply({ content: `Verifying last played matches...`, ephemeral: true });
 
-		let routing;
-
-		switch(region) {
-			case 'br1':
-				routing = 'americas';
-				break;
-			case 'eun1':
-				routing = 'europe';
-				break;
-			case 'euw1':
-				routing = 'europe';
-				break;
-			case 'jp1':
-				routing = 'asia';
-				break;
-			case 'kr':
-				routing = 'asia';
-				break;
-			case 'la1':
-				routing = 'americas';
-				break;
-			case 'la2':
-				routing = 'americas';
-				break;
-			case 'na1':
-				routing = 'americas';
-				break;
-			case 'oc1':
-				routing = 'americas';
-				break;
-			case 'tr1':
-				routing = 'europe';
-				break;
-			case 'ru':
-				routing = 'europe';
-				break;
-			default:
-				routing = 'europe';
-				break;
-		}
+		const routing = routingMap[region] || "europe";
 
 		tftMatchData = await axios.get(`https://${routing}.api.riotgames.com/tft/match/v1/matches/by-puuid/${tftSummonerData.puuid}/ids?start=0&count=5`, {
 			headers: {
-				'X-Riot-Token': process.env.TFT_API_KEY || process.env.DEV_API_KEY
+				'X-Riot-Token': process.env.TFT_API_KEY
 			}
 		}).then(response => {
 			return response.data;
@@ -140,7 +115,7 @@ module.exports = {
 
 		lolMatchData = await axios.get(`https://${routing}.api.riotgames.com/lol/match/v5/matches/by-puuid/${lolSummonerData.puuid}/ids?start=0&count=5`, {
 			headers: {
-				'X-Riot-Token': process.env.LOL_API_KEY || process.env.DEV_API_KEY
+				'X-Riot-Token': process.env.LOL_API_KEY
 			}
 		}).then(response => {
 			return response.data;

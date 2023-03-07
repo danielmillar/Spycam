@@ -1,18 +1,17 @@
-<p align="center">
-    <a href="https://github.com/danielmillar/Spycam">
-        <img style="border-radius: 50%" src="https://cdn.discordapp.com/attachments/1072319338209607681/1074013961940369478/thumb-310521.jpg" alt="Logo" width="160" height="160">
-    </a>
-<h5 align="center">League of Legends & Teamfight Tactics Spycam</h5>
+# League of Legends & Teamfight Tactics Spycam
+
+## Important
+Please note that the Spycam Bot is more of a proof-of-concept (PoC) rather than a bot that is ready for production use. While the bot functions well in small servers such as friend servers, I would recommend avoiding using it in large communities as I have not extensively tested it with a large number of users being monitored. That being said, you are welcome to try the bot in larger servers and provide feedback on its performance.
+
+Additionally, while the bot's code is functional, it can certainly be improved. I have not spent a lot of time on optimization or other advanced techniques, so there may be areas where the code could be streamlined or improved for better performance. If you are interested in contributing to the project, please feel free to submit pull requests with any optimizations or other improvements you may have.
 
 ## About The Project
 
-Welcome to our Discord bot for tracking League of Legends summoners and Teamfight Tactics players! Our bot utilizes the Riot API to monitor and provide real-time updates on the matches of your chosen summoners and TFT players. 
+Spycam Bot is a bot designed to help League of Legends players keep track of their favorite summoners and TFT players. The bot integrates with the Riot API to provide real-time updates on the progress of matches for chosen summoners and TFT players.
 
-With our bot, you can easily stay informed on your friends or rivals' performance in the game without having to constantly check the client. Simply add the bot to your Discord server, invite your friends and set up your summoner names and TFT player names. 
+With the Spycam Bot, users can receive regular updates on the performance of their favorite players, including details such as outcome, champion, and TFT player placement. These updates are delivered directly to a designated Discord channel, allowing users to stay up-to-date on their favorite players without having to constantly monitor the game themselves.
 
-Our bot will send a message to a designated channel every time a new match is detected, providing a brief overview of the match statistics for both League of Legends and TFT. This includes information such as the outcome, the summoner's champion or TFT player's composition, and their performance in the match.
-
-So whether you're a hardcore player or just a casual observer, our bot makes it easy to stay up-to-date on all the action in the world of League of Legends and Teamfight Tactis. Give it a try and take your Discord experience to the next level!
+To use the bot, users simply need to select the summoner/tft player they wish to monitor and the output channel where they want to receive updates. The bot will automatically begin monitoring matches for those players and delivering updates as soon as they are available. It is also suitable for anyone interested in developing a Discord bot or learning how to integrate with the Riot API.
 
 ## Disclaimer
 

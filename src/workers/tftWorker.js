@@ -72,7 +72,7 @@ async function checkLatestMatch(){
         //SECTION - Get match IDs
         const response = await axios.get(`https://${routing}.api.riotgames.com/tft/match/v1/matches/by-puuid/${puuid}/ids?start=0&count=20`, {
             headers: {
-                'X-Riot-Token': process.env.TFT_API_KEY || process.env.DEV_API_KEY
+                'X-Riot-Token': process.env.TFT_API_KEY
             }
         }).catch((err) => {
             console.log(`[ERROR] ${summonerName} - ${err}`);
@@ -110,7 +110,7 @@ async function checkLatestMatch(){
                     const [matchData, queueData] = await axios.all([
                         axios.get(endpoints[0], {
                             headers: {
-                                'X-Riot-Token': process.env.TFT_API_KEY || process.env.DEV_API_KEY
+                                'X-Riot-Token': process.env.TFT_API_KEY
                             }
                         }),
                         axios.get(endpoints[1])
