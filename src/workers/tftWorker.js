@@ -6,8 +6,8 @@ const { parentPort } = require("worker_threads");
 const { config } = require('dotenv');
 config({ path: resolve(__dirname, '..', '.env') })
 
-const waitTime = 60000;
-const userTimeout = 600;
+const waitTime = process.env.DATABASE_CHECK_INTERVAL || 60000;
+const userTimeout = process.env.USER_TIMEOUT || 600;
 
 const routingMap = {
     br1: "americas",
