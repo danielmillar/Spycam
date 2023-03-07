@@ -9,6 +9,20 @@ config({ path: resolve(__dirname, '..', '.env') })
 const waitTime = 60000;
 const userTimeout = 600;
 
+const routingMap = {
+    br1: "americas",
+    eun1: "europe",
+    euw1: "europe",
+    jp1: "asia",
+    kr: "asia",
+    la1: "americas",
+    la2: "americas",
+    na1: "americas",
+    oc1: "americas",
+    tr1: "europe",
+    ru: "europe",
+  };
+
 //SECTION - Connect to MongoDB
 const mongoose = require('mongoose');
 mongoose.set('strictQuery', true);
@@ -31,7 +45,7 @@ async function checkLatestMatch(){
         return  setTimeout(checkLatestMatch, waitTime);
     }
 
-    users.forEach(async (user) => {
+    const promises = users.map(async (user) => {
         const summonerName = user.summonerName;
         const region = user.region;
         const puuid = user.puuidTFT;
@@ -52,46 +66,7 @@ async function checkLatestMatch(){
         }
 
         //SECTION - Get routing
-        let routing;
-
-		switch(region) {
-			case 'br1':
-				routing = 'americas';
-				break;
-			case 'eun1':
-				routing = 'europe';
-				break;
-			case 'euw1':
-				routing = 'europe';
-				break;
-			case 'jp1':
-				routing = 'asia';
-				break;
-			case 'kr':
-				routing = 'asia';
-				break;
-			case 'la1':
-				routing = 'americas';
-				break;
-			case 'la2':
-				routing = 'americas';
-				break;
-			case 'na1':
-				routing = 'americas';
-				break;
-			case 'oc1':
-				routing = 'americas';
-				break;
-			case 'tr1':
-				routing = 'europe';
-				break;
-			case 'ru':
-				routing = 'europe';
-				break;
-			default:
-				routing = 'europe';
-				break;
-		}
+        const routing = routingMap[region] || "europe";
         //!SECTION
 
         //SECTION - Get match IDs
@@ -243,6 +218,8 @@ async function checkLatestMatch(){
         }
         //!SECTION
     });
+
+    await Promise.all(promises);
 
     setTimeout(checkLatestMatch, waitTime);
 }
