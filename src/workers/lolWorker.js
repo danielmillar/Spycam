@@ -179,7 +179,8 @@ async function checkLatestMatch() {
           const cs =
             participant.totalMinionsKilled + participant.neutralMinionsKilled;
 
-          const championName = participant.championName;
+          let championName = participant.championName.toLowerCase();
+          championName = championName[0].toUpperCase() + championName.slice(1);
           const champIcon = `http://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${championName}.png`;
 
           const win = participant.win;
