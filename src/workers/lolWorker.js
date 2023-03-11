@@ -122,9 +122,10 @@ async function checkLatestMatch() {
           const endpoints = [
             `https://${routing}.api.riotgames.com/lol/match/v5/matches/${matchID}`,
             `https://static.developer.riotgames.com/docs/lol/queues.json`,
+            'http://ddragon.leagueoflegends.com/cdn/13.5.1/data/en_US/champion.json'
           ];
 
-          const [matchData, queueData] = await axios
+          const [matchData, queueData, championData] = await axios
             .all([
               axios.get(endpoints[0], {
                 headers: {
@@ -133,21 +134,22 @@ async function checkLatestMatch() {
                 },
               }),
               axios.get(endpoints[1]),
+              axios.get(endpoints[2]),
             ])
             .then(
-              axios.spread((matchData, queueData) => {
-                return [matchData.data, queueData.data];
+              axios.spread((matchData, queueData, championData) => {
+                return [matchData.data, queueData.data, championData.data];
               })
             )
             .catch((error) => {
               console.error(error);
             });
 
-          if (matchData == undefined || queueData == undefined) {
+          if (matchData == undefined || queueData == undefined || championData == undefined) {
             return;
           }
 
-          if (matchData.status === 429 || queueData.status === 429) {
+          if (matchData.status === 429 || queueData.status === 429 || championData.status === 429) {
             console.log(
               `[INFO] API rate limit reached - Waiting 60 seconds - lolWorker`
             );
@@ -179,8 +181,13 @@ async function checkLatestMatch() {
           const cs =
             participant.totalMinionsKilled + participant.neutralMinionsKilled;
 
-          let championName = participant.championName.toLowerCase();
-          championName = championName[0].toUpperCase() + championName.slice(1);
+          const champID = participant.championId;
+          const champion = Object.keys(championData.data).find(
+            (key) => championData.data[key].key == champID
+          );
+
+          const championName = championData.data[champion].id;
+
           const champIcon = `http://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${championName}.png`;
 
           const win = participant.win;
